@@ -37,9 +37,22 @@ const dynamo_flights = new aws.dynamodb.Table(`${env}-flights`, {
     ]
 });
 
+
+const sqs_notifications = new aws.sqs.Queue(`${env}-notifications`, {
+    name: `${env}-notifications`,
+    delaySeconds: 0,
+    messageRetentionSeconds: 345600,
+    visibilityTimeoutSeconds: 120,
+    tags: {
+        Environment: env,
+    },
+})
+
+
 module.exports = {
-
     dynamo_flights_name: dynamo_flights.name,
-    dynamo_flights_arn: dynamo_flights.arn
+    dynamo_flights_arn: dynamo_flights.arn,
 
+    sqs_notifications_name: sqs_notifications.name,
+    sqs_notifications_arn: sqs_notifications.arn
 }
